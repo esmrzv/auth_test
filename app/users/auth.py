@@ -16,14 +16,17 @@ serializer = URLSafeTimedSerializer(settings.SECRET_KEY)
 
 
 def hash_password(password):
+    """функция хеширования пароля"""
     return pwd_context.hash(password)
 
 
 def verify_password(plain_password, hashed_password):
+    """фунция проверки простого пароля с хешированным"""
     return pwd_context.verify(plain_password, hashed_password)
 
 
 def create_access_token(data: dict):
+    """функция создает access_token"""
     to_encode = data.copy()
     expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({'exp': expire})
