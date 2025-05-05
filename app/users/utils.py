@@ -7,6 +7,7 @@ from app.config import settings
 
 
 async def send_email(to_email: str, subject: str, body: str):
+    """функция для отправки писем"""
     smtp_host = settings.smtp_host
     smtp_port = settings.smtp_port
     sender_email = settings.sender_email

@@ -36,6 +36,7 @@ def create_access_token(data: dict):
 
 
 async def authenticate_user(email: EmailStr, password: str, session):
+    """функция для проверки почтв и пароля"""
     user = await UserDAO.get_one_ore_none(email=email, session=session)
     if not user or verify_password(plain_password=password, hashed_password=user.hashed_password) is False:
         return None
@@ -44,10 +45,12 @@ async def authenticate_user(email: EmailStr, password: str, session):
 
 
 def generate_reset_password_token(email: str):
+    """функция генерации токена на сброс пароля"""
     return serializer.dumps(email, salt='reset-password')
 
 
 def confirm_reset_password_token(token: str, expiration=3600):
+    """функция подтверждения токена"""
     try:
         email = serializer.loads(token, salt='reset-password', max_age=expiration)
         return email
@@ -58,10 +61,12 @@ def confirm_reset_password_token(token: str, expiration=3600):
         )
 
 def generate_email_token(email: str, expiration=3600):
+    """функция генерации токена для почты"""
     return serializer.dumps(email, salt='email-token')
 
 
 def confirm_email_token(token: str, expiration=3600):
+    """функция подтверждения токена"""
     try:
         email = serializer.loads(token, salt='email-token', max_age=expiration)
         return email

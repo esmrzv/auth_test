@@ -21,6 +21,7 @@ router = APIRouter(prefix='/users', tags=['users'])
 
 @router.post('/register')
 async def register(user_data: UserRegister, session: AsyncSession = Depends(get_db)):
+    """ручка для регистрации пользователя"""
     user = await UserDAO.get_one_ore_none(email=user_data.email, session=session)
     if user:
         return {'message': "Пользователь уже существует"}
@@ -35,6 +36,7 @@ async def register(user_data: UserRegister, session: AsyncSession = Depends(get_
 
 @router.post('/login')
 async def login(response: Response, user_data: UserLogin, session: AsyncSession = Depends(get_db)):
+    """ручка для входа пользователя на сервис"""
     user_data = await authenticate_user(email=user_data.email, password=user_data.password, session=session)
     if user_data is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
@@ -46,6 +48,7 @@ async def login(response: Response, user_data: UserLogin, session: AsyncSession 
 
 @router.post('/logout')
 async def logout(response: Response):
+    """ручка для выхода из системы"""
     response.delete_cookie(key='access_token')
     return {'message': "Вы вышли из системы"}
 

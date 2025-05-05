@@ -3,6 +3,7 @@ import os.path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class SmtpSettings(BaseSettings):
+    """настройки для отправки писем"""
     smtp_host: str
     smtp_port: int
     sender_email: str
