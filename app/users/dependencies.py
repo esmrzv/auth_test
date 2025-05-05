@@ -11,6 +11,7 @@ from app.users.dao import UserDAO
 
 
 def get_token(request: Request):
+    """функция получения токена"""
     token = request.cookies.get('access_token')
     if not token:
         raise HTTPException(
